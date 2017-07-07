@@ -1,0 +1,26 @@
+rails new credit_card
+//Make sure to cd into the new app folder you just made!
+rails g model CardInfo number expiration_date owner_id:integer
+rails db:migrate
+rails g model Owner name address
+rails db:migrate
+Added the has_many to card_info model and then the belongs_to to owner
+rails c
+a=Owner.new(name:"Guy Fawkes", address:"London")
+a.save
+card1 = CardInfo.new(number:"1234-5678-9012-3456", expiration_date: "10-15-2018")
+a.card_infos << card1
+card1.save
+b=Owner.new(name:"Person 2", address:"Ukraine")
+ => #<Owner id: nil, name: "Person 2", address: "Ukraine", created_at: nil, updated_at: nil>
+b.save
+card2 = CardInfo.new(number:"1234-5678-9012-3456", expiration_date: "10-15-2018")
+card3 = CardInfo.new(number:"1234-5678-9012-3456", expiration_date: "10-15-2018")
+b.card_infos << card2
+card2.save
+b.card_infos << card3
+card3.save
+
+//Add a credit limit to each card
+rails g migration add_column_limit_to_CardInfo limit:integer
+rake db:migrate

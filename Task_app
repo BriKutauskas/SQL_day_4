@@ -1,0 +1,62 @@
+rails g migration add_column_tasks_id_to_comments tasks_id:serial
+
+Story:
+As a programmer, I can create a new Task record with a title, which is a string, and description, which is a string.
+Task.new(title:"Grocery shopping", description:"go to store", done:true)
+
+Story:
+As a programmer, I can list all Task records.
+Task.all
+
+Story:
+As a programmer, I can set a Task record to done given the ID of the record.
+c=Task.new(title:"Wash car", description:"detail", done:false)
+c.save
+
+Story:
+As a programmer, I can list all the records that are done.
+Task.where(done: true)
+
+Story:
+As a programmer, I can list all the records that are not done.
+Task.where(done: false)
+
+Story:
+As a programmer, I can update the title and description of a Task record given the ID of the record.
+Task.update(2, :title => 'Pay Water Bill', :done => true)
+
+Story:
+As a programmer, I can destroy a Task record given the ID of the record.
+Task.find(3).destroy
+
+Story:
+As a programmer, I can set a Task record with a due date, which is a timestamp.
+rails g migration add_duedate_to_tasks duedate:timestamp
+Task.update(1, :duedate => '2017-07-08 18:10:50')
+
+Story:
+As a programmer, I can list all the records with a due date.
+Task.where(duedate: nil)
+
+Story:
+As a programmer, I can list all the records with a due date.
+Task.where.not(duedate: nil)
+
+Story:
+As a programmer, I can list all the records with a due date today
+Task.where("duedate = ?", Date.current+0.hour)
+
+Story:
+As a programmer, I can add multiple comments to a Task record. Comments should have a content field, which is a string.
+Hint: A Task has many Comments.
+rails c
+a=Task.find(1)
+com=Comment.new(content:"This is working")
+a.comments << com
+com.save
+Comment.all
+b=Comment.new(content:"Another comment")
+a.comments << b
+b.save
+Comment.all
+Task.find(1).comment
